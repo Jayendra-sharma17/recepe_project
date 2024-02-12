@@ -6,11 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <title>Add your receipes</title>
+    <title> update receipe page</title>
 </head>
 
 <body>
-    <h1> add update receipe</h1>
+    <h1>update your product here</h1>
 
 
     <div class="container mt-5">
@@ -23,7 +23,7 @@
             <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">enter your receipe name</label>
 
-                <input name= "receipe_name"  required ="text" class="form-control">
+                <input name= "receipe_name" value="{{receipe.receipe_name}}"required ="text" class="form-control">
 
 
             </div>
@@ -31,7 +31,7 @@
             <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">receipe description</label>
 
-    <textarea class="form-control" name="receipe_description" required></textarea>
+    <textarea class="form-control" value="" name="receipe_description" required>{{receipe.receipe_description}}</textarea>
 
             </div>
 
@@ -41,57 +41,17 @@
 
                 <input name="receipe_image" type="file" class="form-control">
             </div>
-            <button type="add receipe" class="btn btn-success">Add receipe</button>
+            <button type="update receipe" class="btn btn-success">update receipe</button>
         </form>
         <!-- {{receipes}} for showing the images -->
 
-<div class="mt-5">
-
-<div class="mx-auto col-6">
-    <br>
-    <form action="">
-
-
-
-    <div class="mb-3">
-        <label for="exampleInputEmail1" class="form-label">search food</label>
-
-        <input name= "search"  type ="text" class="form-control">
-
-
-    </div>
-    <button type="submit" class="btn-btn-primary">search</button>
-</form>
-
-
-</div>
-</div>
-
-        <table class="table mt-5">
-            <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">Receipe name</th>
-                <th scope="col">Receipe description</th>
-                <th scope="col">image</th>
-                <th scope="col">actions</th>
-
- 
-              </tr>
-            </thead>
-            <tbody>
+        
 {% for receipe in receipes %}
 
-              <tr>
-                <th scope="row">{{forloop.counter}}</th>
-                <td>{{receipe.receipe_name}}</td>
-                <td>{{receipe.receipe_description}}</td>
-                <td>
+             
 <img src="/media/{{receipe.receipe_image}}" style="height: 120px;" ></td>
 <td>
     <a href="/delete-receipe/{{receipe.id}}/" class="btn-btn-danger">delete</a>
-    <a href="/update-receipe/{{receipe.id}}/" class="btn-btn-success">update</a>
-
 </td>
               </tr>
               {% endfor %}
