@@ -8,14 +8,21 @@
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <title>Add your receipes</title>
 </head>
+<style>
+    *{
+        padding: 0px;
+        margin: 0px;
+        background-color: rgb(255, 220, 220);
 
+    }
+</style>
 <body>
     <h1> add update receipe</h1>
 
 
     <div class="container mt-5">
 
-        <form class="col-6 mx-auto card p-3 shadow-lg" method="post" enctype="multipart/form-data"> 
+        <form class="col-6 mx-auto card p-3 shadow-lg" method="post" enctype="multipart/form-data" style="font-size: 15px;"> 
 
             {% csrf_token %}
             <h3 style="color: chartreuse;">add your fav receipe</h3>
@@ -43,7 +50,7 @@
             </div>
             <button type="add receipe" class="btn btn-success">Add receipe</button>
         </form>
-        <!-- {{receipes}} for showing the images -->
+       
 
 <div class="mt-5">
 
@@ -67,7 +74,7 @@
 </div>
 </div>
 
-        <table class="table mt-5">
+        <table class="table mt-5" border="5" style="background-color: rgb(255, 238, 0);" >
             <thead>
               <tr>
                 <th scope="col">#</th>
@@ -89,8 +96,14 @@
                 <td>
 <img src="/media/{{receipe.receipe_image}}" style="height: 120px;" ></td>
 <td>
-    <a href="/delete-receipe/{{receipe.id}}/" class="btn-btn-danger">delete</a>
-    <a href="/update-receipe/{{receipe.id}}/" class="btn-btn-success">update</a>
+    <button type="button" class="btn btn-primary" >
+        <a href="/delete-receipe/{{receipe.id}}/" style="color: rgba(0, 0, 0, 0.349);">delete</a>
+
+    </button>
+    <button type="button" class="btn btn-danger">
+        <a href="/update-receipe/{{receipe.id}}/" >update</a>
+
+    </button>
 
 </td>
               </tr>
