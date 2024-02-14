@@ -9,20 +9,44 @@
     <title>Add your receipes</title>
 </head>
 <style>
-    *{
+    * {
         padding: 0px;
         margin: 0px;
         background-color: rgb(255, 220, 220);
 
     }
 </style>
+
 <body>
+
+    <nav class="navbar dark p-3 bg-danger shadow-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand">Navbar</a>
+            <form class="d-flex" role="search">
+                {% if request.user.is_authenticated %}
+                <!-- <button class="btn btn-danger" type="submit" > -->
+                <a href="/logout/" class="btn btn-success" type="submit" style="color: black;">logout</a>
+                {% else %}
+
+                <!-- </button> -->
+                <a href="/login/" class="btn btn-success" type="submit">login</a>
+                {% endif %}
+            </form>
+        </div>
+    </nav>
+    <br>
+    <br>
+    <br>
     <h1> add update receipe</h1>
 
-
+    <center>
+        <h4>welcome {{request.user.first_name}} you can start adding ,deleting , updating your receipe that you want
+        </h4>
+    </center>
     <div class="container mt-5">
 
-        <form class="col-6 mx-auto card p-3 shadow-lg" method="post" enctype="multipart/form-data" style="font-size: 15px;"> 
+        <form class="col-6 mx-auto card p-3 shadow-lg" method="post" enctype="multipart/form-data"
+            style="font-size: 15px;">
 
             {% csrf_token %}
             <h3 style="color: chartreuse;">add your fav receipe</h3>
@@ -30,7 +54,7 @@
             <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">enter your receipe name</label>
 
-                <input name= "receipe_name"  required ="text" class="form-control">
+                <input name="receipe_name" required="text" class="form-control">
 
 
             </div>
@@ -38,78 +62,79 @@
             <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">receipe description</label>
 
-    <textarea class="form-control" name="receipe_description" required></textarea>
+                <textarea class="form-control" name="receipe_description" required></textarea>
 
             </div>
 
             <div class="mb-3 form-check">
 
-                <label class="form-check-label"class="form-label">receipe image</label>
+                <label class="form-check-label" class="form-label">receipe image</label>
 
                 <input name="receipe_image" type="file" class="form-control">
             </div>
             <button type="add receipe" class="btn btn-success">Add receipe</button>
         </form>
-       
-
-<div class="mt-5">
-
-<div class="mx-auto col-6">
-    <br>
-    <form action="">
 
 
+        <div class="mt-5">
 
-    <div class="mb-3">
-        <label for="exampleInputEmail1" class="form-label">search food</label>
-
-        <input name= "search"  type ="text" class="form-control">
-
-
-    </div>
-    <button type="submit" class="btn-btn-primary">search</button>
-</form>
+            <div class="mx-auto col-6">
+                <br>
+                <form action="">
 
 
-</div>
-</div>
 
-        <table class="table mt-5" border="5" style="background-color: rgb(255, 238, 0);" >
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">search food</label>
+
+                        <input name="search" type="text" class="form-control">
+
+
+                    </div>
+                    <button type="submit" class="btn-btn-primary">search</button>
+                </form>
+
+
+            </div>
+        </div>
+
+        <table class="table mt-5" border="5" style="background-color: rgb(255, 238, 0);">
             <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">Receipe name</th>
-                <th scope="col">Receipe description</th>
-                <th scope="col">image</th>
-                <th scope="col">actions</th>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Receipe name</th>
+                    <th scope="col">Receipe description</th>
+                    <th scope="col">image</th>
+                    <th scope="col">actions</th>
 
- 
-              </tr>
+
+                </tr>
             </thead>
             <tbody>
-{% for receipe in receipes %}
+                {% for receipe in receipes %}
 
-              <tr>
-                <th scope="row">{{forloop.counter}}</th>
-                <td>{{receipe.receipe_name}}</td>
-                <td>{{receipe.receipe_description}}</td>
-                <td>
-<img src="/media/{{receipe.receipe_image}}" style="height: 120px;" ></td>
-<td>
-    <button type="button" class="btn btn-primary" >
-        <a href="/delete-receipe/{{receipe.id}}/" style="color: rgba(0, 0, 0, 0.349);">delete</a>
+                <tr>
+                    <th scope="row">{{forloop.counter}}</th>
+                    <td>{{receipe.receipe_name}}</td>
+                    <td>{{receipe.receipe_description}}</td>
+                    <td>
+                        <img src="/media/{{receipe.receipe_image}}" style="height: 120px;">
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-primary">
+                            <a href="/delete-receipe/{{receipe.id}}/" style="color: rgba(0, 0, 0, 0.349);">delete</a>
 
-    </button>
-    <button type="button" class="btn btn-danger">
-        <a href="/update-receipe/{{receipe.id}}/" >update</a>
+                        </button>
+                        <button type="button" class="btn btn-danger">
+                            <a href="/update-receipe/{{receipe.id}}/">update</a>
 
-    </button>
+                        </button>
 
-</td>
-              </tr>
-              {% endfor %}
+                    </td>
+                </tr>
+                {% endfor %}
             </tbody>
-          </table>
+        </table>
 
     </div>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"

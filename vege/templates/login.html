@@ -18,7 +18,20 @@
 </style>
 <body>
 
+    <nav class="navbar dark p-3 bg-danger shadow-lg " >
+        <div class="container-fluid">
+          <a class="navbar-brand">Navbar</a>
+          <form class="d-flex" role="search">
+            
+            <button class="btn btn-danger" type="submit" >
+                <a href="/logout/"  style="color: black;">login</a>
 
+            </button>
+          </form>
+        </div>
+      </nav>
+    <br>
+    <br>
     <div class="container mt-5">
 
         <form class="col-6 mx-auto card p-3 shadow-lg" method="post" enctype="multipart/form-data" style="font-size: 15px;"> 
@@ -31,15 +44,25 @@
             </button>
             <h3 style="color: chartreuse;">login</h3>
             <hr>
+            {% if "messages" %}
+            {{message.tags}}
+            <div class="alert alert-primary" role="alert" >
+                {% for message in messages %}
+                {{message}}
+                {% endfor %}
+            </div>
+            
+            {% endif %}
+
             <form>
                 <div class="mb-3">
                   <label for="exampleInputEmail1" class="form-label">Username</label>
-                  <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                  <input type="text" name="username" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
                   <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
                 </div>
                 <div class="mb-3">
                   <label for="exampleInputPassword1" class="form-label">Password</label>
-                  <input type="password" class="form-control" id="exampleInputPassword1">
+                  <input type="password" name="password" class="form-control" id="exampleInputPassword1">
                 </div>
 
                 

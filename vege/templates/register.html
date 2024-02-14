@@ -20,15 +20,36 @@
 
 <body>
 
-
+    <nav class="navbar dark p-3 bg-danger shadow-lg " >
+        <div class="container-fluid">
+          <a class="navbar-brand">Navbar</a>
+          <form class="d-flex" role="search">
+            
+<a href="/logout/">logout</a>
+          </form>
+        </div>
+      </nav>
+    <br>
+    <br>
     <div class="container mt-5">
 
         <form class="col-6 mx-auto card p-3 shadow-lg" method="post" enctype="multipart/form-data"
             style="font-size: 15px;">
 
             {% csrf_token %}
+
             <h3 style="color: chartreuse;">Register</h3>
             <hr>
+            {% if "messages" %}
+{{message.tags}}
+<div class="alert alert-primary" role="alert" >
+    {% for message in messages %}
+    {{message}}
+    {% endfor %}
+</div>
+
+{% endif %}
+
             <form>
                 <div class="mb-3">
                     <label for="first_name" class="form-label">first name</label>
