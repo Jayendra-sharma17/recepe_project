@@ -6,8 +6,16 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required 
+from django.core.paginator import Paginator 
+# from django.contrib.auth import get_user_model
+from vege.seed import *
+# User=get_user_model()
+
+def home(request):
+    
 
 
+    return render(request,"login.html")
 @login_required(login_url="/login/")
 def receipes(request):
     if request.method=="POST":
@@ -73,7 +81,7 @@ def login_page(request):
         password=request.POST.get('password')
 
         if not User.objects.filter(username=username).exists:
-            messages.error(request,'invalid username')
+            messages.error(request,'invalid username please enter correct username')
             return redirect('/login/')
         user=authenticate(username=username,password=password)
 
@@ -118,3 +126,49 @@ def register(request):
         messages.info(request,'accound created successfully')
         return redirect('/login')
     return render(request,"register.html")
+
+from django.db.models import Q,Sum,Avg,Max,Min
+
+
+def get_students(request):
+    # queryset=Student.objects.all()
+    queryset=Student.objects.all().order_by("studentreportcard__student_rank")
+    if request.GET.get('search'):
+        search=request.GET.get('search')
+        queryset=queryset.filter(
+            Q(student_name__icontains=search)|
+            Q(student_id__student_id__icontains=search)|
+            Q(department__department__icontains=search)|
+            Q(student_email__icontains=search)|
+            Q(student_age__icontains=search)
+
+            )
+    paginator = Paginator(queryset, 25)  # Show 25 contacts per page.
+
+    page_number = request.GET.get("page",1)
+    page_obj = paginator.get_page(page_number)
+    # print(page_obj)
+    # print(page_obj.object_list)
+    # print(page_obj.has_next())
+    return render(request,"report/student.html",{'queryset':page_obj})
+
+from .seed import generate_report_card
+def see_marks(request,student_id):
+    # generate_report_card()
+    queryset=SubjectMarks.objects.filter(student__student_id__student_id=student_id)
+    totalmarks=queryset.aggregate(totalmarks=Sum('marks'))
+    avgg=queryset.aggregate(avgg=Avg('marks'))
+    maxval=queryset.aggregate(maxval=Max('marks'))
+    minval=queryset.aggregate(minval=Min('marks'))
+    # current_rank=-1
+    # ranks=Student.objects.annotate(marks=Sum('studentmarks__marks')).order_by('-marks','-student_age')
+    # # print(rank)
+    # i=1
+    # for rank in ranks:
+    #     # print(rank.student_id)
+    #     if student_id==rank.student_id.student_id:
+    #         current_rank=i
+    #         break
+    #     i=i+1
+    # # print(totalmarks)
+    return render(request,"report/see_marks.html",{'queryset':queryset, 'totalmarks':totalmarks,'avgg':avgg,'maxval':maxval,'minval':minval})
